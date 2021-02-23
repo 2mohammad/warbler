@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+      <h2 class="join-message">Edit Your Profile.</h2>
+      <form method="POST" id="user_form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+            {% if field.label.text == "Username"%}
+            {{ field.label(class_="text-info")}}
+            {{ field(value=user.username, class="form-control") }}
+            {% endif %}
+            {% if field.label.text == "E-mail"%}
+            {{ field.label(class_="text-info")}}
+            {{ field(value=user.email, class="form-control") }}
+            {% endif %}
+            {% if field.label.text == "(Optional) Image URL"%}
+            {{ field.label(class_="text-info")}}
+            {{ field(value=user.image_url, class="form-control") }}
+            {% endif %}
+            {% if field.label.text == "(Optional) Header URL"%}
+            {{ field.label(class_="text-info")}}
+            {{ field(value=user.header_image_url, class="form-control") }}
+            {% endif %}
+            {% if field.label.text == "Bio" %}
+            {{ field.label(class_="text-info")}}
+            {{ field(placeholder=user.bio, value=user.bio, class="form-control") }}
+            {% endif %}
+
+          {% endfor %}
+
+        <p>To confirm changes, enter your password:</p>
+        {% if form.password.errors %}
+          {% for error in form.password.errors %}
+            <span class="text-danger">
+            {{ error }}
+          </span>
+          {% endfor %}
+        {% endif %}
+        {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+
+        <div class="edit-btn-area">
+          <button class="btn btn-success">Edit this user!</button>
+          <a href="/users/{{ user_id }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
